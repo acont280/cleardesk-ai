@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0 0;
+  --foreground: 250 250 250;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: rgb(var(--background));
+  color-scheme: dark;
+}
+
+body {
+  color: rgb(var(--foreground));
+  background: rgb(var(--background));
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
+}
+
+::selection {
+  background: rgba(59, 130, 246, 0.35);
+  color: #fff;
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12;
+  }
+
+  .section {
+    @apply py-20 sm:py-28;
+  }
+
+  .h1 {
+    @apply font-display text-[44px] font-semibold leading-[1.05] tracking-tightest text-white sm:text-6xl lg:text-7xl;
+  }
+
+  .h2 {
+    @apply font-display text-3xl font-semibold leading-[1.1] tracking-tight text-white sm:text-5xl;
+  }
+
+  .h3 {
+    @apply font-display text-xl font-semibold tracking-tight text-white sm:text-2xl;
+  }
+
+  .lede {
+    @apply text-lg leading-relaxed text-white/65 sm:text-xl;
+  }
+
+  .muted {
+    @apply text-white/65;
+  }
+
+  .card {
+    @apply rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.04] sm:p-8;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-b from-white via-brand-400 to-brand-500 bg-clip-text text-transparent;
+  }
+
+  .gradient-text-blue {
+    @apply bg-gradient-to-r from-brand-400 via-brand-500 to-brand-400 bg-clip-text text-transparent;
+  }
+
+  .hairline {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-brand-500/40 to-transparent;
+  }
+}
+
+@layer utilities {
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 70% 70% at 50% 0%, #000 30%, transparent 80%);
+  }
+
+  .bg-grid-dense {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid #3B82F6;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Marquee uses 200% width; one half is duplicated for seamless loop */
+.marquee-track {
+  width: max-content;
+  display: flex;
+  gap: 4rem;
+  padding-right: 4rem;
+  flex-shrink: 0;
+}
