@@ -2,116 +2,141 @@
 
 import { useEffect, useRef, useState } from "react";
 
-type Sender = "bot" | "user";
-type Message = { id: string; sender: Sender; text: string };
-type StepKey = "intro" | "type" | "budget" | "timeline" | "wrap" | "done";
-
-type Option = { label: string; value: string; next: StepKey };
-
-const STEPS: Record<
-  StepKey,
-  {
-    botText: string;
-    options?: Option[];
-  }
-> = {
-  intro: {
-    botText:
-      "Hey 👋 I'm ClearDesk's assistant. I can help qualify your project in under a minute. What are you exploring?",
-    options: [
-      { label: "Web design", value: "design", next: "budget" },
-      { label: "Web development", value: "dev", next: "budget" },
-      { label: "AI automation", value: "ai", next: "budget" },
-      { label: "Not sure yet", value: "unsure", next: "budget" },
-    ],
-  },
-  type: {
-    botText: "Got it. What kind of project is it?",
-    options: [
-      { label: "Web design", value: "design", next: "budget" },
-      { label: "Web development", value: "dev", next: "budget" },
-      { label: "AI automation", value: "ai", next: "budget" },
-    ],
-  },
-  budget: {
-    botText: "What's the rough budget you have in mind?",
-    options: [
-      { label: "Under $5k", value: "<5k", next: "timeline" },
-      { label: "$5k–$15k", value: "5-15k", next: "timeline" },
-      { label: "$15k+", value: "15k+", next: "timeline" },
-      { label: "Not sure", value: "unsure", next: "timeline" },
-    ],
-  },
-  timeline: {
-    botText: "When are you hoping to start?",
-    options: [
-      { label: "ASAP", value: "asap", next: "wrap" },
-      { label: "Within a month", value: "1m", next: "wrap" },
-      { label: "1–3 months", value: "3m", next: "wrap" },
-      { label: "Just exploring", value: "explore", next: "wrap" },
-    ],
-  },
-  wrap: {
-    botText:
-      "Perfect — sounds like a fit. The fastest next step is a free 15-min strategy call. Want to grab a slot now?",
-    options: [
-      { label: "Book a call", value: "book", next: "done" },
-      { label: "Maybe later", value: "later", next: "done" },
-    ],
-  },
-  done: {
-    botText:
-      "Sounds good. You can also reach us anytime at hello@cleardesk.ai — talk soon!",
-  },
+type Message = {
+  id: string;
+  role: "user" | "assistant";
+  content: string;
 };
 
-const CALENDLY_PATH = "/contact";
+const MAX_MESSAGES = 20;
+
+const CALENDLY_URL =
+  process.env.NEXT_PUBLIC_CALENDLY_URL ??
+  "https://calendly.com/cleardesk-ai/strategy-call";
 
 function uid() {
   return Math.random().toString(36).slice(2, 9);
 }
 
+/** Turn URLs in text into clickable links */
+function linkify(text: string) {
+  const urlRegex = /(https?:\/\/[^\s)]+)/g;
+  const parts = text.split(urlRegex);
+  return parts.map((part, i) =>
+    urlRegex.test(part) ? (
+      <a
+        key={i}
+        href={part}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="underline text-brand-400 hover:text-brand-300"
+      >
+        {part.length > 40 ? "Book a call here" : part}
+      </a>
+    ) : (
+      <span key={i}>{part}</span>
+    )
+  );
+}
+
 export function Chatbot() {
   const [open, setOpen] = useState(false);
   const [unread, setUnread] = useState(true);
-  const [step, setStep] = useState<StepKey>("intro");
   const [messages, setMessages] = useState<Message[]>([
-    { id: uid(), sender: "bot", text: STEPS.intro.botText },
+    {
+      id: uid(),
+      role: "assistant",
+      content:
+        "Hey! 👋 I'm the ClearDesk assistant. I can answer questions about our services, pricing, and process — or help you book a free strategy call. What can I help you with?",
+    },
   ]);
-  const [typing, setTyping] = useState(false);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [limitReached, setLimitReached] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const userMsgCount = messages.filter((m) => m.role === "user").length;
 
   useEffect(() => {
-    if (open) setUnread(false);
+    if (open) {
+      setUnread(false);
+      setTimeout(() => inputRef.current?.focus(), 100);
+    }
   }, [open]);
 
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages, typing]);
+  }, [messages, loading]);
 
-  function pickOption(opt: Option) {
-    setMessages((m) => [...m, { id: uid(), sender: "user", text: opt.label }]);
+  async function send() {
+    const text = input.trim();
+    if (!text || loading || limitReached) return;
 
-    if (opt.value === "book") {
-      window.location.href = CALENDLY_PATH;
+    if (userMsgCount >= MAX_MESSAGES) {
+      setLimitReached(true);
+      setMessages((m) => [
+        ...m,
+        {
+          id: uid(),
+          role: "assistant",
+          content: `You've hit the message limit! To keep the conversation going, book a free call with Adrian: ${CALENDLY_URL}`,
+        },
+      ]);
       return;
     }
 
-    setTyping(true);
-    setTimeout(() => {
-      const next = STEPS[opt.next];
+    const userMsg: Message = { id: uid(), role: "user", content: text };
+    const updated = [...messages, userMsg];
+    setMessages(updated);
+    setInput("");
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: updated.map((m) => ({
+            role: m.role,
+            content: m.content,
+          })),
+        }),
+      });
+
+      const data = await res.json();
+      const reply = data.reply ?? data.error ?? "Sorry, something went wrong.";
+
       setMessages((m) => [
         ...m,
-        { id: uid(), sender: "bot", text: next.botText },
+        { id: uid(), role: "assistant", content: reply },
       ]);
-      setStep(opt.next);
-      setTyping(false);
-    }, 650);
+
+      if (data.reply && userMsgCount + 1 >= MAX_MESSAGES) {
+        setLimitReached(true);
+      }
+    } catch {
+      setMessages((m) => [
+        ...m,
+        {
+          id: uid(),
+          role: "assistant",
+          content: "Something went wrong. Please try again or email hello@cleardesk.ai.",
+        },
+      ]);
+    } finally {
+      setLoading(false);
+    }
   }
 
-  const current = STEPS[step];
+  function onKeyDown(e: React.KeyboardEvent) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      send();
+    }
+  }
 
   return (
     <>
@@ -184,7 +209,7 @@ export function Chatbot() {
               <div>
                 <p className="text-sm font-semibold">ClearDesk Assistant</p>
                 <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/50">
-                  Typically replies instantly
+                  AI-powered · Online
                 </p>
               </div>
             </div>
@@ -214,21 +239,21 @@ export function Chatbot() {
                 <li
                   key={m.id}
                   className={`flex ${
-                    m.sender === "user" ? "justify-end" : "justify-start"
+                    m.role === "user" ? "justify-end" : "justify-start"
                   }`}
                 >
                   <div
-                    className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
-                      m.sender === "user"
+                    className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap ${
+                      m.role === "user"
                         ? "bg-brand-500 text-white"
                         : "bg-white/[0.06] text-white ring-1 ring-white/10"
                     }`}
                   >
-                    {m.text}
+                    {m.role === "assistant" ? linkify(m.content) : m.content}
                   </div>
                 </li>
               ))}
-              {typing && (
+              {loading && (
                 <li className="flex justify-start">
                   <div className="flex items-center gap-1 rounded-2xl bg-white/[0.06] px-4 py-3 ring-1 ring-white/10">
                     <span className="h-2 w-2 animate-pulse-soft rounded-full bg-brand-400" />
@@ -247,30 +272,49 @@ export function Chatbot() {
           </div>
 
           <div className="border-t border-white/10 bg-black p-3">
-            {current.options ? (
-              <div className="flex flex-wrap gap-2">
-                {current.options.map((opt) => (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    onClick={() => pickOption(opt)}
-                    disabled={typing}
-                    className="rounded-full border border-white/15 bg-white/[0.03] px-3.5 py-1.5 text-sm text-white transition-colors hover:border-brand-400/60 hover:bg-brand-500/10 hover:text-brand-400 disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-            ) : (
+            {limitReached ? (
               <a
-                href={CALENDLY_PATH}
+                href={CALENDLY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block rounded-full bg-brand-500 py-2.5 text-center text-sm font-medium text-white shadow-glow-strong transition-colors hover:bg-brand-400"
               >
                 Book a free strategy call →
               </a>
+            ) : (
+              <div className="flex items-center gap-2">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={onKeyDown}
+                  placeholder="Ask me anything..."
+                  disabled={loading}
+                  className="flex-1 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-white/30 focus:outline-none focus:ring-2 focus:ring-brand-500/20 disabled:opacity-50"
+                />
+                <button
+                  type="button"
+                  onClick={send}
+                  disabled={loading || !input.trim()}
+                  className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-brand-500 text-white transition-colors hover:bg-brand-400 disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path
+                      d="M14 2L7 9M14 2l-5 12-2-5-5-2 12-5z"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              </div>
             )}
             <p className="mt-2 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-white/40">
-              Powered by ClearDesk AI
+              {limitReached
+                ? "Message limit reached"
+                : `${MAX_MESSAGES - userMsgCount} messages remaining`}
             </p>
           </div>
         </div>
