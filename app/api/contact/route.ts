@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
+import { Resend } from "resend";
 
-export const runtime = "edge";
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+const TO_EMAIL = process.env.CONTACT_EMAIL ?? "adrian@cleardesk.tech";
+const FROM_EMAIL = "ClearDesk AI <noreply@cleardesk.tech>";
 
 type Payload = {
   name?: string;
@@ -38,9 +42,27 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Payload too large" }, { status: 413 });
   }
 
-  // TODO: wire up to Resend, Postmark, or your CRM of choice.
-  // For now we just log the submission so the route works on Vercel out of the box.
-  console.log("[contact] submission", { name, email, message });
+  try {
+    await resend.emails.send({
+      from: FROM_EMAIL,
+      to: TO_EMAIL,
+      replyTo: email,
+      subject: `New lead from ${name}`,
+      text: [
+        `Name: ${name}`,
+        `Email: ${email}`,
+        ``,
+        `Message:`,
+        message,
+      ].join("\n"),
+    });
+  } catch (err) {
+    console.error("[contact] Resend error:", err);
+    return NextResponse.json(
+      { error: "Failed to send email" },
+      { status: 500 }
+    );
+  }
 
   return NextResponse.json({ ok: true });
 }

@@ -8,8 +8,8 @@ type Props = {
 };
 
 export function CTABanner({
-  title = "Let's build something that converts.",
-  subtitle = "Book a free 15-minute strategy call. No pitch — just a tactical look at where your site is leaking opportunities.",
+  title = "Ready to get more customers?",
+  subtitle = "Book a free 15-minute call. No pitch, no pressure — just an honest conversation about what your business needs.",
   primaryHref = "/contact",
   primaryLabel = "Book a Free Call",
 }: Props) {

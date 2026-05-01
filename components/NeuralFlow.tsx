@@ -431,12 +431,16 @@ export function NeuralFlow() {
       >
         <div className="container-page text-center">
           <h1 className="font-display text-5xl font-semibold leading-[1.05] tracking-tightest text-balance text-white sm:text-7xl lg:text-8xl">
-            Building the websites
+            <span className="animate-fade-up inline-block">Stop being the invisible option.</span>
             <br />
-            <span className="gradient-text">you deserve.</span>
+            <span className="gradient-text animate-fade-up inline-block" style={{ animationDelay: "0.3s" }}>Start being fully booked.</span>
           </h1>
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70 sm:text-xl animate-fade-up" style={{ animationDelay: "0.5s" }}>
+            We build websites that get local businesses found, called, and
+            booked — starting at <span className="font-semibold text-brand-400">$75/month</span>.
+          </p>
 
-          <div className="pointer-events-auto mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <div className="pointer-events-auto mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row animate-fade-up" style={{ animationDelay: "0.7s" }}>
             <Button href="/contact" size="lg">
               Book a Free Call
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -450,7 +454,7 @@ export function NeuralFlow() {
               </svg>
             </Button>
             <Button href="/services" variant="secondary" size="lg">
-              Services
+              See Pricing
             </Button>
           </div>
         </div>

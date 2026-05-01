@@ -79,13 +79,13 @@ export default function ServicesPage() {
         <div className="container-page relative pt-20 pb-16 sm:pt-28 sm:pb-20">
           <div className="mx-auto max-w-3xl text-center animate-fade-up">
             <h1 className="h1 text-balance">
-              Built to ship.
+              Simple pricing.
               <br />
-              <span className="gradient-text">Priced to scale.</span>
+              <span className="gradient-text">No surprises.</span>
             </h1>
             <p className="lede mt-6">
-              Three packages, one focus: turning your website into a system
-              that captures leads while you sleep.
+              Pick the plan that fits your business. Cancel anytime. Unlimited
+              changes included.
             </p>
           </div>
         </div>
@@ -207,8 +207,8 @@ export default function ServicesPage() {
       </section>
 
       <CTABanner
-        title="Not sure which fits?"
-        subtitle="Tell us about your business in 15 minutes — we'll point you to the package that actually fits where you are."
+        title="Not sure which plan is right?"
+        subtitle="Jump on a free 15-min call and we'll help you pick. No pressure, no pitch — just honest advice."
       />
     </>
   );

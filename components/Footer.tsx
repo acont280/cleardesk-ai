@@ -34,8 +34,8 @@ export function Footer() {
           <div>
             <Logo />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/60">
-              Modern web design and AI automation for teams who want to ship
-              fast and convert better.
+              Professional websites and AI tools for local businesses.
+              Cancel anytime. Unlimited changes.
             </p>
           </div>
           {FOOTER_NAV.map((col) => (

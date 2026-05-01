@@ -70,16 +70,17 @@ export default function AboutPage() {
                 What I believe
               </h2>
               <p className="mt-4 text-white/70">
-                Small businesses deserve the same quality of website that
-                venture-backed startups get — without the venture-backed
-                price tag. Modern tools (and a focused workflow) make that
-                possible. The agency markup is a choice, not a requirement.
+                Your business deserves a great website — you shouldn't
+                have to pay agency prices to get one. Today's tools make
+                it possible to build something professional and fast
+                without a 10-person team. The big agency markup is a
+                choice, not a necessity.
               </p>
               <p className="mt-4 text-white/70">
-                If I take on your project, it's because I think I can ship
-                you something measurably better than what you have now —
-                and faster than you'd expect. If I can't, I'll tell you
-                straight.
+                If I take on your project, it's because I know I can
+                build you something better than what you have — and
+                faster than you'd expect. If I can't help, I'll tell
+                you upfront.
               </p>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
