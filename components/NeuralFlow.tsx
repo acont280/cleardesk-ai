@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { makePerlin } from "@/lib/perlin";
 import { Button } from "./Button";
 
@@ -32,6 +32,13 @@ export function NeuralFlow() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const sectionRef = useRef<HTMLElement | null>(null);
+  const [showFirstLine, setShowFirstLine] = useState(true);
+
+  // Hide the first headline after 5 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => setShowFirstLine(false), 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -431,8 +438,16 @@ export function NeuralFlow() {
       >
         <div className="container-page text-center">
           <h1 className="font-display text-5xl font-semibold leading-[1.05] tracking-tightest text-balance text-white sm:text-7xl lg:text-8xl">
-            <span className="animate-fade-up inline-block">Stop being the invisible option.</span>
-            <br />
+            <span
+              className={`animate-fade-up inline-block transition-all duration-1000 ease-in-out ${
+                showFirstLine
+                  ? "opacity-100 max-h-[1.2em] mb-0"
+                  : "opacity-0 max-h-0 mb-0 overflow-hidden"
+              }`}
+            >
+              Stop being the invisible option.
+            </span>
+            {showFirstLine && <br />}
             <span className="gradient-text animate-fade-up inline-block" style={{ animationDelay: "0.3s" }}>Start being fully booked.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70 sm:text-xl animate-fade-up" style={{ animationDelay: "0.5s" }}>
