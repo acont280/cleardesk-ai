@@ -36,7 +36,7 @@ export function NeuralFlow() {
 
   // Hide the first headline after 5 seconds
   useEffect(() => {
-    const timer = setTimeout(() => setShowFirstLine(false), 5000);
+    const timer = setTimeout(() => setShowFirstLine(false), 3000);
     return () => clearTimeout(timer);
   }, []);
 
