@@ -437,18 +437,17 @@ export function NeuralFlow() {
         style={{ transform: "translate3d(var(--mx), var(--my), 0)" }}
       >
         <div className="container-page text-center">
-          <h1 className="font-display text-5xl font-semibold leading-[1.05] tracking-tightest text-balance text-white sm:text-7xl lg:text-8xl">
+          <h1 className="font-display font-semibold leading-[1.05] tracking-tightest text-white text-[clamp(2rem,5.5vw,6rem)]">
             <span
-              className={`animate-fade-up inline-block transition-all duration-1000 ease-in-out ${
+              className={`animate-fade-up block whitespace-nowrap transition-all duration-1000 ease-in-out ${
                 showFirstLine
-                  ? "opacity-100 max-h-[1.2em] mb-0"
-                  : "opacity-0 max-h-0 mb-0 overflow-hidden"
+                  ? "opacity-100 max-h-[1.3em]"
+                  : "opacity-0 max-h-0 overflow-hidden"
               }`}
             >
               Stop being the invisible option.
             </span>
-            {showFirstLine && <br />}
-            <span className="gradient-text animate-fade-up inline-block" style={{ animationDelay: "0.3s" }}>Start being fully booked.</span>
+            <span className="gradient-text animate-fade-up block whitespace-nowrap" style={{ animationDelay: "0.3s" }}>Start being fully booked.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70 sm:text-xl animate-fade-up" style={{ animationDelay: "0.5s" }}>
             We build websites that get local businesses found, called, and
