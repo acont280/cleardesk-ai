@@ -34,11 +34,12 @@ export default function HomePage() {
             <div className="max-w-2xl">
               <h2 className="h2 text-balance">
                 Everything you need
-                <br />
+                <br className="hidden sm:block" />
+                <span className="sm:hidden"> </span>
                 to get more customers.
               </h2>
             </div>
-            <p className="max-w-md text-white/60">
+            <p className="hidden max-w-md text-white/60 sm:block">
               We don't just build you a pretty site. We build one that
               actually gets you customers.
             </p>
@@ -55,7 +56,7 @@ export default function HomePage() {
                   <h3 className="mt-4 font-display text-2xl font-semibold text-white sm:text-3xl">
                     A website that makes you look legit.
                   </h3>
-                  <p className="mt-3 text-white/65">
+                  <p className="mt-3 hidden text-white/65 sm:block">
                     Clean, professional, and built to make people trust your
                     business the second they land on your page.
                   </p>
@@ -99,7 +100,7 @@ export default function HomePage() {
               <h3 className="mt-4 font-display text-2xl font-semibold text-white">
                 Let AI handle the busy work.
               </h3>
-              <p className="mt-3 text-sm text-white/65">
+              <p className="mt-3 hidden text-sm text-white/65 sm:block">
                 A chatbot that answers questions and captures leads while
                 you sleep. Plus Google review automation to boost your
                 ratings.
@@ -127,7 +128,7 @@ export default function HomePage() {
                 <br />
                 <span className="text-white/50">for what you do.</span>
               </h3>
-              <p className="mt-3 max-w-md text-white/65">
+              <p className="mt-3 hidden max-w-md text-white/65 sm:block">
                 Every site we build is designed to rank in your area. When
                 someone Googles "plumber near me" or "best dentist in
                 Oakland" — you actually show up.
@@ -155,7 +156,7 @@ export default function HomePage() {
               <h3 className="mt-4 font-display text-2xl font-semibold text-white">
                 3 steps. That's it.
               </h3>
-              <p className="mt-3 text-sm text-white/65">
+              <p className="mt-3 hidden text-sm text-white/65 sm:block">
                 We keep it simple — call, build, launch. No
                 back-and-forth for months.
               </p>
@@ -188,11 +189,12 @@ export default function HomePage() {
                 Your AI chatbot answers questions and captures leads while
                 you sleep.
               </h2>
-              <p className="mt-5 text-lg text-white/65">
-                Every site we build comes with an AI assistant that knows
+              <p className="mt-5 text-base text-white/65 sm:text-lg">
+                <span className="hidden sm:inline">Every site we build comes with an AI assistant that knows
                 your business inside and out. It answers customer questions
                 instantly, captures their info, and sends you the lead —
-                even at 2am on a Sunday.
+                even at 2am on a Sunday.</span>
+                <span className="sm:hidden">An AI assistant that answers questions and captures leads — even at 2am.</span>
               </p>
               <ul className="mt-6 space-y-3 text-white/70">
                 {[
@@ -288,13 +290,13 @@ export default function HomePage() {
       </section>
 
       {/* BIG STAT — 72 HOURS */}
-      <section className="border-y border-white/5 py-24 sm:py-32">
+      <section className="border-y border-white/5 py-16 sm:py-32">
         <div className="container-page">
           <div className="mx-auto max-w-4xl text-center">
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-white/40">
               From call to live website
             </p>
-            <p className="mt-6 font-display text-6xl font-semibold leading-none tracking-tightest text-white sm:text-[120px] lg:text-[160px]">
+            <p className="mt-4 font-display text-5xl font-semibold leading-none tracking-tightest text-white sm:mt-6 sm:text-[120px] lg:text-[160px]">
               <CountUp
                 target={72}
                 duration={2200}
@@ -302,9 +304,10 @@ export default function HomePage() {
                 className="gradient-text"
               />
             </p>
-            <p className="mt-6 max-w-xl text-balance text-lg text-white/60 sm:text-xl mx-auto">
-              Your website goes live within 72 hours of our first call.
-              No waiting around for weeks.
+            <p className="mt-4 max-w-xl text-base text-white/60 sm:mt-6 sm:text-xl mx-auto">
+              <span className="hidden sm:inline">Your website goes live within 72 hours of our first call.
+              No waiting around for weeks.</span>
+              <span className="sm:hidden">Live in 72 hours. No waiting around.</span>
             </p>
           </div>
         </div>
@@ -313,48 +316,48 @@ export default function HomePage() {
       {/* SOCIAL PROOF — CANCEL ANYTIME + UNLIMITED CHANGES */}
       <section className="section">
         <div className="container-page">
-          <div className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-3">
-            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-8 text-center transition-all hover:border-white/20">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-brand-500/30 bg-brand-500/10 text-brand-400">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <div className="mx-auto grid max-w-4xl gap-3 grid-cols-3 sm:gap-4">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 text-center transition-all hover:border-white/20 sm:p-8">
+              <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl border border-brand-500/30 bg-brand-500/10 text-brand-400 sm:h-14 sm:w-14 sm:rounded-2xl">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="sm:h-6 sm:w-6">
                   <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" />
                 </svg>
               </div>
-              <h3 className="mt-5 font-display text-lg font-semibold text-white">
+              <h3 className="mt-3 font-display text-sm font-semibold text-white sm:mt-5 sm:text-lg">
                 Cancel anytime
               </h3>
-              <p className="mt-2 text-sm text-white/60">
+              <p className="mt-1 hidden text-sm text-white/60 sm:mt-2 sm:block">
                 No contracts, no commitments. Stay because it works,
                 not because you're locked in.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-8 text-center transition-all hover:border-white/20">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-brand-500/30 bg-brand-500/10 text-brand-400">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 text-center transition-all hover:border-white/20 sm:p-8">
+              <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl border border-brand-500/30 bg-brand-500/10 text-brand-400 sm:h-14 sm:w-14 sm:rounded-2xl">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="sm:h-6 sm:w-6">
                   <path d="M12 20h9M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
-              <h3 className="mt-5 font-display text-lg font-semibold text-white">
+              <h3 className="mt-3 font-display text-sm font-semibold text-white sm:mt-5 sm:text-lg">
                 Unlimited changes
               </h3>
-              <p className="mt-2 text-sm text-white/60">
+              <p className="mt-1 hidden text-sm text-white/60 sm:mt-2 sm:block">
                 Need something updated? Just ask. We make unlimited
                 changes to your site — no extra charges.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-8 text-center transition-all hover:border-white/20">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-brand-500/30 bg-brand-500/10 text-brand-400">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 text-center transition-all hover:border-white/20 sm:p-8">
+              <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl border border-brand-500/30 bg-brand-500/10 text-brand-400 sm:h-14 sm:w-14 sm:rounded-2xl">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="sm:h-6 sm:w-6">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
-              <h3 className="mt-5 font-display text-lg font-semibold text-white">
+              <h3 className="mt-3 font-display text-sm font-semibold text-white sm:mt-5 sm:text-lg">
                 We handle everything
               </h3>
-              <p className="mt-2 text-sm text-white/60">
+              <p className="mt-1 hidden text-sm text-white/60 sm:mt-2 sm:block">
                 Hosting, domain, updates, security — we take care of it
                 all so you can focus on your business.
               </p>

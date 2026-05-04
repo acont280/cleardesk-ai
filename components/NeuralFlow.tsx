@@ -53,6 +53,7 @@ export function NeuralFlow() {
       "(prefers-reduced-motion: reduce)"
     ).matches;
     const isCoarse = window.matchMedia("(pointer: coarse)").matches;
+    const isMobile = window.innerWidth < 640;
 
     // ------------------------------------------------------------------
     //  Particle state
@@ -381,9 +382,12 @@ export function NeuralFlow() {
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(canvas);
 
-    canvas.addEventListener("pointermove", onPointerMove);
-    canvas.addEventListener("pointerleave", onPointerLeave);
-    canvas.addEventListener("pointerdown", onPointerDown);
+    // Disable interactivity on mobile — no pointer tracking or shockwaves
+    if (!isMobile) {
+      canvas.addEventListener("pointermove", onPointerMove);
+      canvas.addEventListener("pointerleave", onPointerLeave);
+      canvas.addEventListener("pointerdown", onPointerDown);
+    }
 
     resize();
 
@@ -408,9 +412,11 @@ export function NeuralFlow() {
       window.clearTimeout(initialBurst);
       visibilityObserver.disconnect();
       resizeObserver.disconnect();
-      canvas!.removeEventListener("pointermove", onPointerMove);
-      canvas!.removeEventListener("pointerleave", onPointerLeave);
-      canvas!.removeEventListener("pointerdown", onPointerDown);
+      if (!isMobile) {
+        canvas!.removeEventListener("pointermove", onPointerMove);
+        canvas!.removeEventListener("pointerleave", onPointerLeave);
+        canvas!.removeEventListener("pointerdown", onPointerDown);
+      }
     };
   }, []);
 
@@ -427,7 +433,7 @@ export function NeuralFlow() {
     >
       <canvas
         ref={canvasRef}
-        className="block h-[100svh] min-h-[640px] w-full cursor-crosshair"
+        className="block h-[100svh] min-h-[640px] w-full cursor-default sm:cursor-crosshair"
       />
 
       {/* Overlay — slogan + CTAs */}
@@ -449,9 +455,11 @@ export function NeuralFlow() {
             </span>
             <span className="gradient-text animate-fade-up block sm:whitespace-nowrap" style={{ animationDelay: "0.3s" }}>Start being fully booked.</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70 sm:text-xl animate-fade-up" style={{ animationDelay: "0.5s" }}>
-            We build websites that get local businesses found, called, and
-            booked — starting at <span className="font-semibold text-brand-400">$75/month</span>.
+          <p className="mx-auto mt-4 max-w-2xl text-base text-white/70 sm:mt-6 sm:text-xl animate-fade-up" style={{ animationDelay: "0.5s" }}>
+            <span className="hidden sm:inline">We build websites that get local businesses found, called, and
+            booked — starting at </span>
+            <span className="sm:hidden">Professional websites starting at </span>
+            <span className="font-semibold text-brand-400">$75/month</span>.
           </p>
 
           <div className="pointer-events-auto mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row animate-fade-up" style={{ animationDelay: "0.7s" }}>

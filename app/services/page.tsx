@@ -92,57 +92,57 @@ export default function ServicesPage() {
       </section>
 
       {/* Service detail blocks */}
-      <section className="pb-20 pt-20">
-        <div className="container-page space-y-24">
+      <section className="pb-20 pt-12 sm:pt-20">
+        <div className="container-page space-y-16 sm:space-y-24">
           {SERVICES.map((service, idx) => {
             const isFeatured = service.id === "multipage-ai";
             return (
               <article
                 key={service.id}
                 id={service.id}
-                className={`scroll-mt-28 grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:items-start ${
+                className={`scroll-mt-28 grid gap-8 lg:grid-cols-[1fr_1.2fr] lg:items-start ${
                   idx % 2 === 1 ? "lg:[&>div:first-child]:order-2" : ""
                 }`}
               >
                 <div className="lg:sticky lg:top-28">
                   <div
-                    className={`relative overflow-hidden rounded-3xl border p-8 sm:p-10 ${
+                    className={`relative overflow-hidden rounded-2xl border p-6 sm:rounded-3xl sm:p-10 ${
                       isFeatured
                         ? "border-white/20 bg-gradient-to-br from-white/[0.06] via-white/[0.02] to-transparent"
                         : "border-white/10 bg-white/[0.02]"
                     }`}
                   >
-                    <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-brand-500/30 bg-brand-500/10 text-brand-400">
+                    <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-brand-500/30 bg-brand-500/10 text-brand-400 sm:h-14 sm:w-14 sm:rounded-2xl">
                       {ICONS[service.iconKey]}
                     </div>
-                    <h2 className="mt-6 font-display text-3xl font-semibold leading-[1.1] tracking-tight text-white sm:text-4xl">
+                    <h2 className="mt-4 font-display text-2xl font-semibold leading-[1.1] tracking-tight text-white sm:mt-6 sm:text-4xl">
                       {service.name}
                     </h2>
-                    <p className="mt-3 text-lg text-white/65">
+                    <p className="mt-2 text-base text-white/65 sm:mt-3 sm:text-lg">
                       {service.tagline}
                     </p>
-                    <div className="mt-6 flex flex-wrap items-center gap-3">
-                      <div className="inline-flex items-baseline gap-1.5 rounded-full border border-white/15 bg-black/40 px-4 py-2">
+                    <div className="mt-4 flex flex-wrap items-center gap-2 sm:mt-6 sm:gap-3">
+                      <div className="inline-flex items-baseline gap-1.5 rounded-full border border-white/15 bg-black/40 px-3 py-1.5 sm:px-4 sm:py-2">
                         {service.originalPrice && (
-                          <span className="font-display text-base font-medium text-white/40 line-through">
+                          <span className="font-display text-sm font-medium text-white/40 line-through sm:text-base">
                             {service.originalPrice}
                           </span>
                         )}
-                        <span className="font-display text-2xl font-semibold text-white">
+                        <span className="font-display text-xl font-semibold text-white sm:text-2xl">
                           {service.price}
                         </span>
-                        <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/50">
+                        <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/50 sm:text-[11px]">
                           {service.priceSuffix}
                         </span>
                       </div>
                       {service.originalPrice && (
-                        <span className="relative font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-brand-400">
+                        <span className="relative font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-brand-400 sm:text-[11px]">
                           — Limited Discount
                           <span className="absolute -bottom-0.5 left-0 h-px w-full bg-brand-400/40" />
                         </span>
                       )}
                     </div>
-                    <div className="mt-6">
+                    <div className="mt-5 sm:mt-6">
                       <Button href="/contact">
                         Book a Free Strategy Call
                       </Button>
@@ -151,22 +151,22 @@ export default function ServicesPage() {
                 </div>
 
                 <div>
-                  <p className="text-lg leading-relaxed text-white/80">
+                  <p className="hidden text-lg leading-relaxed text-white/80 sm:block">
                     {service.description}
                   </p>
 
-                  <div className="mt-10">
+                  <div className="sm:mt-10">
                     <h3 className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">
-                      What's included
+                      What&apos;s included
                     </h3>
-                    <ul className="mt-4 space-y-3">
+                    <ul className="mt-3 space-y-2 sm:mt-4 sm:space-y-3">
                       {service.outcomes.map((o) => (
                         <li
                           key={o}
-                          className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-4"
+                          className="flex items-start gap-2.5 rounded-lg border border-white/10 bg-white/[0.02] p-3 sm:gap-3 sm:rounded-xl sm:p-4"
                         >
                           <svg
-                            className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-400"
+                            className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-400 sm:h-5 sm:w-5"
                             viewBox="0 0 20 20"
                             fill="none"
                           >
@@ -178,21 +178,21 @@ export default function ServicesPage() {
                               strokeLinejoin="round"
                             />
                           </svg>
-                          <span className="text-white/85">{o}</span>
+                          <span className="text-sm text-white/85 sm:text-base">{o}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
-                  <div className="mt-10">
+                  <div className="mt-6 sm:mt-10">
                     <h3 className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">
                       Best for
                     </h3>
-                    <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+                    <ul className="mt-3 grid gap-2 grid-cols-2 sm:mt-4 sm:gap-3">
                       {service.useCases.map((u) => (
                         <li
                           key={u}
-                          className="rounded-xl border border-white/10 bg-white/[0.02] p-4 text-sm text-white/65"
+                          className="rounded-lg border border-white/10 bg-white/[0.02] p-3 text-xs text-white/65 sm:rounded-xl sm:p-4 sm:text-sm"
                         >
                           {u}
                         </li>
