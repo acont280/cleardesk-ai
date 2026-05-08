@@ -165,7 +165,7 @@ export const SERVICES: Service[] = [
       "Any business where a missed call means a missed customer",
       "Business owners who want leads, reviews, and rankings all working together",
     ],
-    price: "$1,000",
+    price: "$500",
     priceSuffix: "/month",
     iconKey: "phone",
   },

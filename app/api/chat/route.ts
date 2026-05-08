@@ -33,7 +33,7 @@ const SYSTEM_PROMPT = `You are the ClearDesk AI assistant — a friendly, helpfu
 - Easy for you to update without touching any code
 - Best for: established businesses that want to own local Google results
 
-### 3. Never Miss Another Lead Package — $1,000/month
+### 3. Never Miss Another Lead Package — $500/month
 - Everything in the Multi-Page plan, PLUS:
 - AI receptionist picks up every missed call (nights, weekends, holidays)
 - Takes a message, figures out what they need, texts you the details
